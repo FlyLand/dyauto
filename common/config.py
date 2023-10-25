@@ -4,7 +4,7 @@ exe_work_path = ".\dyauto\wssBarrageService"
 exe_name = "WssBarrageService.exe"
 conf_name = "WssBarrageService.exe.config"
 default_page_name = "default"
-server_host = "139.155.155.73"
+server_host = "127.0.0.1"
 
 def getExeConfigName(roomid:str=""):
     return exe_work_path + os.sep + conf_name + roomid

@@ -1,7 +1,7 @@
 from multiprocessing import Process,SimpleQueue,Manager
 from playwright.async_api import async_playwright
 from browser import init_browser
-import time,psutil,asyncio,api
+import time,asyncio,api
 from task import task_manager
 import json
 
@@ -11,20 +11,6 @@ def startChrome(roomid,ws_port,proxy_port):
 async def run(ws_port,proxy_port,roomid):
     async with async_playwright() as playwright:
         await task_manager.start(playwright,ws_port,proxy_port,roomid)
-        # await test(playwright,roomid)
-
-async def test(playwright,roomid):
-    room_url = f"https://live.douyin.com/{roomid}"
-    browser = await init_browser.getBrowser(playwright)
-    context = await browser.new_context()
-    mainPage = await context.new_page()
-    await mainPage.goto(room_url)
-
-    await mainPage.pause()
-    # loop = asyncio.get_event_loop()
-    # future = loop.create_future()
-    # ret = await future
-    # print('func end with %s' % ret)
 
 taskManager = dict()
 runningTask = dict()
@@ -43,8 +29,6 @@ def createApiTask(q,pmanager):
     p = Process(target=startApi,name="api",args=(q,pmanager))
     p.daemon = True
     p.start()
-    
-
 
 # 創建綫程
 def createTask(portConfig,roomid):
